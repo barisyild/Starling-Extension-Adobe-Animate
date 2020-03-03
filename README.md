@@ -7,9 +7,9 @@ Please open a issue regarding your problems.
 > Example Code
 
 	package;
-	import starling.extensions.bunnyate.bunnyation;
+	import starling.extensions.animate.Animation;
 	import openfl.display.FPS;
-	import starling.extensions.bunnyate.AssetManagerEx;
+	import starling.extensions.animate.AssetManagerEx;
 	import openfl.events.Event;
 	import openfl.display.Sprite;
 	import openfl.geom.Rectangle;
