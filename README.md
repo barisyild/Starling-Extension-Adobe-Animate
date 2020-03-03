@@ -1,8 +1,13 @@
+
 Starling Extension: Animate CC "Texture Atlas" Lazy Port
 =========================================================
 This is an experimental port and is not optimized.
 
 Please open a issue regarding your problems.
+
+
+**This plugin is for Starling only, if you want to use it in OpenFL, you can use the ["OpenFl-Animate-Atlas-Player"](https://github.com/mathieuanthoine/OpenFl-Animate-Atlas-Player) library.**
+
 
 > Example Code
 
@@ -51,3 +56,4 @@ Please open a issue regarding your problems.
 	        _starling.juggler.add(anim);
 	    }
 	}
+
