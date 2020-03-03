@@ -44,7 +44,7 @@ Please open a issue regarding your problems.
 
 	    public function start(assets:AssetManagerEx):Void
 	    {
-	        var anim:Animation = assets.createbunnyation("bunny");
+	        var anim:Animation = assets.createAnimation("bunny");
 	        anim.x = Math.random() * stage.stageWidth;
 	        anim.y = Math.random() * stage.stageHeight;
 	        _starling.stage.addChild(anim);
