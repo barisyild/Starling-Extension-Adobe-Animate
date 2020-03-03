@@ -1,4 +1,4 @@
-Starling Extension: bunnyate CC "Texture Atlas" Lazy Port
+Starling Extension: Animate CC "Texture Atlas" Lazy Port
 =========================================================
 This is an experimental port and is not optimized.
 
