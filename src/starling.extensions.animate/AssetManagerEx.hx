@@ -28,7 +28,7 @@ class AssetManagerEx extends AssetManager
     override public function addAsset(name:String, asset:Dynamic, type:String = null):Void
     {
         if (type == null && Std.is(asset, AnimationAtlas))
-        type = AnimationAtlas.ASSET_TYPE;
+            type = AnimationAtlas.ASSET_TYPE;
 
         super.addAsset(name, asset, type);
     }
@@ -57,7 +57,7 @@ class AssetManagerEx extends AssetManager
             if (atlas.hasAnimation(name))
             {
                 animation = atlas.createAnimation(name);
-            break;
+                break;
             }
         }
 
@@ -92,6 +92,7 @@ class AnimationAtlasFactory extends JsonFactory
     {
         function onObjectComplete(name:String, json:Dynamic):Void
         {
+
             var baseName:String = getName(asset.url, name, false);
             var fullName:String = getName(asset.url, name, true);
 

@@ -25,9 +25,12 @@ class LoopMode
     {
         switch (value)
         {
-            case "LP", LOOP:return LOOP;
-            case "PO", PLAY_ONCE:return PLAY_ONCE;
-            case "SF", SINGLE_FRAME:return SINGLE_FRAME;
+            case "LP", LOOP:
+                return LOOP;
+            case "PO", PLAY_ONCE:
+                return PLAY_ONCE;
+            case "SF", SINGLE_FRAME:
+                return SINGLE_FRAME;
             default:throw new ArgumentError("Invalid loop mode: " + value);
         }
     }

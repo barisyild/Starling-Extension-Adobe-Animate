@@ -4,6 +4,7 @@ import openfl.utils.Function;
 import starling.animation.IAnimatable;
 import starling.display.DisplayObjectContainer;
 import starling.events.Event;
+import starling.extensions.animate.AnimationAtlasData.SymbolData;
 
 class Animation extends DisplayObjectContainer implements IAnimatable
 {

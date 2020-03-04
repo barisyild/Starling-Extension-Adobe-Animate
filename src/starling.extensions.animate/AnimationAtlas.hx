@@ -1,5 +1,10 @@
 package starling.extensions.animate;
 
+import starling.extensions.animate.AnimationAtlasData.ElementData;
+import starling.extensions.animate.AnimationAtlasData.LayerFrameData;
+import starling.extensions.animate.AnimationAtlasData.LayerData;
+import starling.extensions.animate.AnimationAtlasData.SymbolTimelineData;
+import starling.extensions.animate.AnimationAtlasData.SymbolData;
 import openfl.utils.Object;
 import openfl.Vector;
 import openfl.errors.ArgumentError;
@@ -14,7 +19,7 @@ class AnimationAtlas
     public static inline var ASSET_TYPE : String = "animationAtlas";
     
     private var _atlas : TextureAtlas;
-    private var _symbolData : Map<String, Dynamic>;
+    private var _symbolData : Map<String, SymbolData>;
     private var _symbolPool : Map<String, Array<Symbol>>;
     private var _imagePool : Array<Image>;
     private var _frameRate : Float;
@@ -28,12 +33,12 @@ class AnimationAtlas
         m30: 0, m31: 0, m32: 0, m33: 1
     };
     
-    public function new(data : Dynamic, atlas : TextureAtlas)
+    public function new(dynamicData : Dynamic, atlas : TextureAtlas)
     {
-        if (data  == null) throw new ArgumentError("data must not be null");
+        if (dynamicData  == null) throw new ArgumentError("data must not be null");
         if (atlas == null) throw new ArgumentError("atlas must not be null");
 
-        data = normalizeJsonKeys(data);
+        var data:AnimationAtlasData = cast normalizeJsonKeys(dynamicData);
         parseData(data);
 
         _atlas = atlas;
@@ -137,37 +142,36 @@ class AnimationAtlas
     
     // helpers
     
-    private function parseData(data : Dynamic) : Void
+    private function parseData(data : AnimationAtlasData) : Void
     {
-        var metaData:Dynamic = data.metadata;
+        var metaData = data.metadata;
 
-        if (metaData && metaData.frameRate > 0)
+        if (metaData != null && metaData.frameRate > 0)
             _frameRate = Std.int(metaData.frameRate);
         else
             _frameRate = 24;
 
-        _symbolData = new Map<String, Dynamic>();
+        _symbolData = new Map<String, SymbolData>();
 
         // the actual symbol dictionary
-        for (symbolData in cast(data.symbolDictionary.symbols, Array<Dynamic>))
+        for (symbolData in data.symbolDictionary.symbols)
             _symbolData[symbolData.symbolName] = preprocessSymbolData(symbolData);
 
             // the main animation
-        var defaultSymbolData:Dynamic = preprocessSymbolData(data.animation);
+        var defaultSymbolData:SymbolData = preprocessSymbolData(data.animation);
         _defaultSymbolName = defaultSymbolData.symbolName;
         _symbolData[_defaultSymbolName] = defaultSymbolData;
 
         // a purely internal symbol for bitmaps - simplifies their handling
-         _symbolData[Symbol.BITMAP_SYMBOL_NAME] = {
-            symbolName: Symbol.BITMAP_SYMBOL_NAME,
-            timeline: { layers: [] }
-         };
+        var symbolData:SymbolData = {symbolName: Symbol.BITMAP_SYMBOL_NAME};
+        symbolData.timeline = {layers: []};
+         _symbolData[Symbol.BITMAP_SYMBOL_NAME] = symbolData;
     }
     
-    private static function preprocessSymbolData(symbolData : Dynamic) : Dynamic
+    private static function preprocessSymbolData(symbolData : SymbolData) : SymbolData
     {
-        var timeLineData:Dynamic = symbolData.timeline;
-        var layerDates:Array<Dynamic> = timeLineData.layers;
+        var timeLineData:SymbolTimelineData  = symbolData.timeline;
+        var layerDates:Array<LayerData> = timeLineData.layers;
 
         // In Animate CC, layers are sorted front to back.
         // In Starling, it's the other way round - so we simply reverse the layer data.
@@ -185,18 +189,18 @@ class AnimationAtlas
 
         for (l in 0...numLayers)
         {
-            var layerData:Dynamic = layerDates[l];
-            var frames:Array<Dynamic> = layerData.frames;
+            var layerData:LayerData = layerDates[l];
+            var frames:Array<LayerFrameData> = layerData.frames;
             var numFrames:Int = frames.length;
 
             for (f in 0...numFrames)
             {
-                var elements:Array<Dynamic> = frames[f].elements;
+                var elements:Array<ElementData> = frames[f].elements;
                 var numElements:Int = elements.length;
 
                 for (e in 0...numElements)
                 {
-                    var element:Dynamic = elements[e];
+                    var element:ElementData = elements[e];
 
                     if (element.atlasSpriteInstance != null)
                     {
@@ -226,7 +230,7 @@ class AnimationAtlas
         return symbolData;
     }
     
-    public function getSymbolData(name : String) : Dynamic
+    public function getSymbolData(name : String):SymbolData
     {
         return _symbolData.get(name);
     }

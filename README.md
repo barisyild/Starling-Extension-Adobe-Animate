@@ -1,7 +1,6 @@
 
-Starling Extension: Animate CC "Texture Atlas" Lazy Port
+Starling Extension: Animate CC "Texture Atlas" Port
 =========================================================
-This is an experimental port and is not optimized.
 
 Please open a issue regarding your problems.
 
